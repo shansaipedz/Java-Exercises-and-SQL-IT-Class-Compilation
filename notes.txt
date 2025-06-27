@@ -1,0 +1,65 @@
+use database;
+create table enroll(enrollmentID int, studid int, subjid int); // will hold all the ids/ which subj the sudent enrolled
+//run
+use database; //need to specify which database everytime you create a table
+create table subjects(subjid int, stujcode text, subjdesc text, subjunits int, subjsched text);
+//run
+use database;
+insert into subjects values(11,'cs111','Intro to Prog1',5,'TTH');
+insert into subjects values(12,'cs211','Intro to Prog2',5,'SAT');
+insert into subjects values(13,'cs311','Intro to Prog3',5,'F');
+insert into subjects values(14,'cs411','Intro to Prog4',5,'MW');
+//run
+use database;
+insert into students values(11,'cs111','aaa','5','TTH','aa');
+insert into students values(12,'cs111','bbb','5','TTH','aa');
+insert into students values(13,'cs111','ccc','5','TTH','aa');
+insert into students values(14,'cs111','Intro to Prog','5','TTH','aa');
+insert into students values(15,'cs111','Intro to Prog','5','TTH','aa');
+//run
+use database;
+insert into enroll values(1,1,12);
+insert into enroll values(2,1,13);
+insert into enroll values(3,1,14);
+insert into enroll values(4,3,11);
+insert into enroll values(5,3,12);
+insert into enroll values(6,3,13);
+insert into enroll values(7,5,11);
+insert into enroll values(8,5,10);
+insert into enroll values(9,5,12);
+//run
+use database;
+select * from students where studid in(select studid from enroll); //important / intersection;
+//run
+use database;
+select * from subjects where subjid in(select ssubjid from enroll); //important / intersection;
+//run
+use database;
+select * from students,subjects,enroll where students.studid=enroll.studid = and enroll.subjid = subjects.subjid;
+//run
+use database;
+select * from students,subjects,enroll where students.studid=enroll.studid = and enroll.subjid = subjects.subjid and students.studid=1; /for specific stud
+//run
+use database;
+select students.studid,(students.)studname,subjcode,subjdesc from students,subjects,enroll where students.studid=enroll.studid = and enroll.subjid = subjects.subjid and students.studid=5;
+//run
+use database;
+select y.subjcode(*) from (select * from subjects) as y where subjid>11;
+//run
+use database;
+select * from (select subjcode,subjid from subjects) as y where subjid>11;
+//run
+use database;
+select subjcode,subjid from (select * from subjects) as y where subjid>11; //same sa taas
+//run
+use database;
+select (select studid from students where studname='ba') from students; //return ambot hatdog
+//run
+use database;
+select sum(subjunits) from students,subjects,enroll where students.studid = enroll.studid and enroll.subjid = subjects.subjid; //get total of all
+//run
+use database;
+select studname,studid as x, (select sum(subjunits) from students,subjects,enroll where students.studid = enroll.studid and enroll.subjid = subjects.subjid and students.studid=x) (as totalUnits(*variable name of the column*)) from students; //get total of a particular student
+//run
+
+foreign key always MANY and primary key always ONE in cardinality
